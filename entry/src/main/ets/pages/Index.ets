@@ -19,17 +19,6 @@ struct Index {
   handWidth : number = 8
   defaultAngle : number = 180 * Math.PI / 180
 
-   // rotateHandToDefault(){
-   //   this.context.save()
-   //     this.context.drawImage(this.dial,this.startX,this.startY,this.clockSize,this.clockSize)
-   //     this.context.translate(this.startX + this.clockSize / 2, this.startY + this.clockSize / 2)
-   //     this.context.rotate(180 * Math.PI / 180)
-   //     this.context.translate(-(this.startX + this.clockSize / 2), -(this.startY + this.clockSize / 2))
-   //     this.context.drawImage(this.hourHand,this.startX + this.clockSize / 2 - this.handWidth / 2 ,this.startY,this.handWidth,this.handHeight)
-   //     this.context.drawImage(this.minuteHand,this.startX + this.clockSize / 2 - this.handWidth / 2 ,this.startY,this.handWidth,this.handHeight)
-   //     this.context.drawImage(this.secondHand,this.startX + this.clockSize / 2 - this.handWidth / 2 ,this.startY,this.handWidth,this.handHeight)
-   //   this.context.restore()
-   // }
 
   calculateRotateAngle(currentTime:Date): Array<number>{
     const hour : number = currentTime.getHours()
@@ -37,9 +26,10 @@ struct Index {
     const second : number = currentTime.getSeconds()
 
     const totalSecond : number = hour * 3600 + minute * 60 + second
+    const minSecond :   number = (totalSecond) % 60 === 0 ? totalSecond : totalSecond - totalSecond % 60
     const secondAngle : number = ((totalSecond * 6) % 360) * Math.PI / 180
-    const minuteAngle : number = ((totalSecond * 6 / 60) % 360) * Math.PI / 180
-    const hourAngle : number = (totalSecond * 6 / 720) % 360 * Math.PI / 180
+    const minuteAngle : number = ((minSecond * 6 / 60) % 360) * Math.PI / 180
+    const hourAngle : number   = (totalSecond * 6 / 720) % 360 * Math.PI / 180
 
     return [hourAngle, minuteAngle, secondAngle]
   }
@@ -49,6 +39,7 @@ struct Index {
     this.context.drawImage(image,this.startX,this.startY,this.clockSize,this.clockSize)
     this.context.restore()
   }
+
 
 
   drawHand(image:ImageBitmap, angle:number){
