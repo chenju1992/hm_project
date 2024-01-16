@@ -1,4 +1,6 @@
 import settings from '@ohos.settings';
+
+
 @Entry
 @Component
 struct Index {
@@ -6,6 +8,7 @@ struct Index {
   private settings: RenderingContextSettings = new RenderingContextSettings(true)
   private context: CanvasRenderingContext2D = new CanvasRenderingContext2D(this.settings)
   private timer : number = -1
+  private isMovingEverySecond = false;
 
   private dial : ImageBitmap = new ImageBitmap('images/ic_clock_pan.png')
   private hourHand : ImageBitmap = new ImageBitmap('images/ic_hour_pointer.png')
@@ -28,8 +31,8 @@ struct Index {
     const totalSecond : number = hour * 3600 + minute * 60 + second
     const minSecond :   number = (totalSecond) % 60 === 0 ? totalSecond : totalSecond - totalSecond % 60
     const secondAngle : number = ((totalSecond * 6) % 360) * Math.PI / 180
-    const minuteAngle : number = ((minSecond * 6 / 60) % 360) * Math.PI / 180
-    const hourAngle : number   = (totalSecond * 6 / 720) % 360 * Math.PI / 180
+    const minuteAngle : number = (((this.isMovingEverySecond ? totalSecond : minSecond)  * 6 / 60) % 360) * Math.PI / 180
+    const hourAngle :   number   = (totalSecond * 6 / 720) % 360 * Math.PI / 180
 
     return [hourAngle, minuteAngle, secondAngle]
   }
@@ -63,7 +66,12 @@ struct Index {
   drawClockEverySeconds(){
     this.timer = setInterval(()=>{
       this.context.clearRect(this.startX,this.startY, this.clockSize, this.clockSize)
-      this.drawClock()
+      const currentTime :Date = new Date()
+      const angles :Array<number> = this.calculateRotateAngle(currentTime)
+      this.drawDial(this.dial)
+      this.drawHand(this.secondHand,angles[2])
+      this.drawHand(this.minuteHand,angles[1])
+      this.drawHand(this.hourHand,angles[0])
 
     },1000)
   }

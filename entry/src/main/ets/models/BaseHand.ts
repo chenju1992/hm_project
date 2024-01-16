@@ -1,4 +1,4 @@
-abstract class BaseHand{
+export abstract class BaseHand{
 
   date : Date
   currentAngle: number = 0
@@ -11,15 +11,10 @@ abstract class BaseHand{
 
   abstract setCurrentAngle(date:Date)
 
-  getRenderPeriod():number{
-    return this.renderPeriod;
-  }
-
-  setRenderPeriod(renderPeriod : number):void{
-    this.renderPeriod = renderPeriod
-  }
 
   abstract renderHand(renderPeriod : number):void
+
+
 
 
 
