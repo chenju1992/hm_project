@@ -3,6 +3,7 @@ import settings from '@ohos.settings';
 
 @Entry
 @Component
+@Preview
 struct Index {
 
   private settings: RenderingContextSettings = new RenderingContextSettings(true)
@@ -15,11 +16,11 @@ struct Index {
   private minuteHand : ImageBitmap = new ImageBitmap('images/ic_minute_pointer.png')
   private secondHand : ImageBitmap = new ImageBitmap('images/ic_second_pointer.png')
 
-  startX : number = 50
-  startY : number = 100
-  clockSize : number = 252
-  handHeight : number = 252
-  handWidth : number = 8
+  private startX : number = 50
+  private startY : number = 100
+  private clockSize : number = 252
+  private handHeight : number = 252
+  private handWidth : number = 8
 
 
   degreeToRadius(angleInDegree : number){
