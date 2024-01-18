@@ -54,7 +54,8 @@ struct CustomDialogUser {
     builder: CustomDialogExample({
       candidates: $areas,
       selectedCandidate: $selectedArea
-    })
+    }),
+    cancel:()=>{this.displayResult()}
   })
 
   setProvinceList(){
@@ -73,6 +74,14 @@ struct CustomDialogUser {
     if(!!(this.selectedCity && this.selectedProvince)){
       this.areas = provinceCityAreaMaps.filter(item => item.name === this.selectedProvince)[0].city
         .filter(city => city.name === this.selectedCity)[0].area
+    }
+  }
+
+  displayResult(){
+    if(!!(this.selectedProvince && this.selectedCity && this.selectedArea)){
+      promptAction.showToast({
+        message: `${this.selectedProvince}-${this.selectedCity}-${this.selectedArea}`
+      })
     }
   }
 
@@ -119,8 +128,6 @@ struct CustomDialogUser {
         }).backgroundColor(Color.Blue).enabled(this.areas.length > 0)
 
     }.width('100%').margin({ top: 5 })
-
-
 
   }
 
