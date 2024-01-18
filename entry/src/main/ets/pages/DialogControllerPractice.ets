@@ -38,14 +38,16 @@ struct CustomDialogUser {
     builder: CustomDialogExample({
       candidates: $provinces,
       selectedCandidate: $selectedProvince
-    })
+    }),
+    cancel: ()=>{this.setCityList()}
   })
 
   cityDialogController: CustomDialogController = new CustomDialogController({
     builder: CustomDialogExample({
       candidates: $cities,
       selectedCandidate: $selectedCity
-    })
+    }),
+    cancel:()=>{this.setAreaList()}
   })
 
   areaDialogController: CustomDialogController = new CustomDialogController({
@@ -60,13 +62,18 @@ struct CustomDialogUser {
   }
 
   setCityList() {
-    this.cities = provinceCityAreaMaps.filter(item => item.name === this.selectedProvince)[0].city
-      .map(item=>{return item.name})
+    if(!!(this.selectedProvince)){
+      this.cities = provinceCityAreaMaps.filter(item => item.name === this.selectedProvince)[0].city
+        .map(item=>{return item.name})
+    }
   }
 
   setAreaList(){
-    this.areas = provinceCityAreaMaps.filter(item => item.name === this.selectedProvince)[0].city
-      .filter(city => city.name === this.selectedCity)[0].area
+    console.log(this.selectedCity);
+    if(!!(this.selectedCity && this.selectedProvince)){
+      this.areas = provinceCityAreaMaps.filter(item => item.name === this.selectedProvince)[0].city
+        .filter(city => city.name === this.selectedCity)[0].area
+    }
   }
 
   onCancel() {
@@ -81,34 +88,35 @@ struct CustomDialogUser {
     console.info('Click the callback in the blank area')
   }
 
+  aboutToAppear(){
+    this.setProvinceList()
+  }
+
 
   build() {
     Column({space:20}) {
       Button("请选择省份")
         .onClick(() => {
-          this.setProvinceList()
           if (this.provinceDialogController != undefined) {
             this.provinceDialogController.open()
           }
-        }).backgroundColor(Color.Blue)
+        }).backgroundColor(Color.Blue).enabled(this.provinces.length > 0)
 
 
       Button("请选择城市")
         .onClick(() => {
-          this.setCityList()
           if (this.cityDialogController != undefined) {
             this.cityDialogController.open()
           }
-        }).backgroundColor(Color.Blue)
+        }).backgroundColor(Color.Blue).enabled(this.cities.length > 0)
 
 
       Button("请选择区县")
         .onClick(() => {
-          this.setAreaList()
           if (this.areaDialogController != undefined) {
             this.areaDialogController.open()
           }
-        }).backgroundColor(Color.Blue)
+        }).backgroundColor(Color.Blue).enabled(this.areas.length > 0)
 
     }.width('100%').margin({ top: 5 })
 
@@ -119,7 +127,7 @@ struct CustomDialogUser {
 
   // 在自定义组件即将析构销毁时将dialogController置空
   aboutToDisappear() {
-    this.provinceDialogController = undefined // 将dialogController置空
+    this.provinceDialogController = undefined
     this.cityDialogController = undefined
     this.areaDialogController = undefined
 
