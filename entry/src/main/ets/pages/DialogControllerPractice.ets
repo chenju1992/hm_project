@@ -1,7 +1,7 @@
 import promptAction from '@ohos.promptAction'
 import {provinceCityAreaMaps} from '../models/ProvinceCityMap'
 
-// xxx.ets
+
 @CustomDialog
 struct CustomDialogExample {
   @Link candidates: string[]
@@ -39,7 +39,11 @@ struct CustomDialogUser {
       candidates: $provinces,
       selectedCandidate: $selectedProvince
     }),
-    cancel: ()=>{this.setCityList()}
+    cancel: ()=>{
+      if(!(!!this.cities.length)){
+        this.setCityList();
+      }
+    }
   })
 
   cityDialogController: CustomDialogController = new CustomDialogController({
@@ -47,7 +51,11 @@ struct CustomDialogUser {
       candidates: $cities,
       selectedCandidate: $selectedCity
     }),
-    cancel:()=>{this.setAreaList()}
+    cancel:()=>{
+      if(!(!!this.areas.length)){
+        this.setAreaList()
+      }
+    }
   })
 
   areaDialogController: CustomDialogController = new CustomDialogController({
