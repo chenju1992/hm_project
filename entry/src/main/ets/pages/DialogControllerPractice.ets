@@ -40,9 +40,7 @@ struct CustomDialogUser {
       selectedCandidate: $selectedProvince
     }),
     cancel: ()=>{
-      if(!(!!this.cities.length)){
         this.setCityList();
-      }
     }
   })
 
@@ -52,9 +50,7 @@ struct CustomDialogUser {
       selectedCandidate: $selectedCity
     }),
     cancel:()=>{
-      if(!(!!this.areas.length)){
         this.setAreaList()
-      }
     }
   })
 
@@ -78,7 +74,6 @@ struct CustomDialogUser {
   }
 
   setAreaList(){
-    console.log(this.selectedCity);
     if(!!(this.selectedCity && this.selectedProvince)){
       this.areas = provinceCityAreaMaps.filter(item => item.name === this.selectedProvince)[0].city
         .filter(city => city.name === this.selectedCity)[0].area
