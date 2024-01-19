@@ -1,25 +1,6 @@
 import promptAction from '@ohos.promptAction'
 import {provinceCityAreaMaps} from '../models/ProvinceCityMap'
-
-
-@CustomDialog
-struct CustomDialogExample {
-  @Link candidates: string[]
-  @Link selectedCandidate: string
-  controller: CustomDialogController
-
-  build() {
-    Column(){
-        ForEach(this.candidates, (candidate)=>{
-          Text(candidate).onClick(()=>{
-            this.selectedCandidate = candidate
-          })
-        })
-    }
-  }
-}
-
-
+import {CustomDialogExample} from '../views/CustomDialogExample'
 
 
 @Preview
