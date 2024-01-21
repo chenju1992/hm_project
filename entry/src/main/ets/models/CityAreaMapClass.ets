@@ -1,6 +1,7 @@
 import {AbstractMapClass} from "./AbstractMapClass"
 import {CITY_LIST} from "./Cities"
 import  {AREA_LIST} from "./Areas"
+import {MapManager} from './MapManager'
 
 export class CityAreaMapClass extends AbstractMapClass{
 
@@ -49,7 +50,9 @@ export class CityAreaMapClass extends AbstractMapClass{
     this.setValueList()
   }
 
-
+  register(mapName:string,mapManager:MapManager){
+    mapManager.set(mapName,this)
+  }
 
 
 

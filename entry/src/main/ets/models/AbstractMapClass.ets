@@ -13,5 +13,7 @@ export abstract class AbstractMapClass{
 
   abstract getValueAccordingToKey(key:string):Array<string>
 
+  abstract init()
+
 
 }

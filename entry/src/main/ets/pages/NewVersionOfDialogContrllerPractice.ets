@@ -2,8 +2,7 @@ import promptAction from '@ohos.promptAction'
 import {CustomDialogExample} from '../views/CustomDialogExample'
 import {ProvinceCityMapClass} from '../models/ProvinceCityMapClass'
 import { CityAreaMapClass } from '../models/CityAreaMapClass'
-
-
+import {MapManager} from '../models/MapManager'
 
 @Preview
 @Entry
@@ -17,8 +16,7 @@ struct CustomDialogUser {
   @State selectedCity: string = ""
   @State selectedArea: string = ""
 
-  provinceCityMap: ProvinceCityMapClass = new ProvinceCityMapClass()
-  cityAreaMap : CityAreaMapClass = new CityAreaMapClass()
+  mapManager:MapManager
 
 
   provinceDialogController: CustomDialogController = new CustomDialogController({
@@ -27,7 +25,7 @@ struct CustomDialogUser {
       selectedCandidate: $selectedProvince
     }),
     cancel: ()=>{
-      this.cities = this.provinceCityMap.getValueAccordingToKey(this.selectedProvince)
+      this.cities = this.mapManager.getNextLayer("provinceCityMap",this.selectedProvince)
     }
   })
 
@@ -37,7 +35,7 @@ struct CustomDialogUser {
       selectedCandidate: $selectedCity
     }),
     cancel:()=>{
-      this.areas = this.cityAreaMap.getValueAccordingToKey(this.selectedCity)
+      this.areas = this.mapManager.getNextLayer("cityAreaMap",this.selectedCity)
     }
   })
 
@@ -60,9 +58,13 @@ struct CustomDialogUser {
 
 
   aboutToAppear(){
-    this.provinceCityMap.init()
-    this.cityAreaMap.init()
-    this.provinces = this.provinceCityMap.getKeyList()
+    this.mapManager = new MapManager()
+    let provinceCityMap:ProvinceCityMapClass = new ProvinceCityMapClass()
+    let cityAreaMap:CityAreaMapClass = new CityAreaMapClass()
+    provinceCityMap.register("provinceCityMap",this.mapManager)
+    cityAreaMap.register("cityAreaMap",this.mapManager)
+    this.mapManager.initMaps()
+    this.provinces = this.mapManager.getFirstLayer()
   }
 
 
@@ -101,8 +103,6 @@ struct CustomDialogUser {
     this.provinceDialogController = undefined
     this.cityDialogController = undefined
     this.areaDialogController = undefined
-    this.provinceCityMap = null
-    this.cityAreaMap = null
-
+    this.mapManager = undefined
   }
 }

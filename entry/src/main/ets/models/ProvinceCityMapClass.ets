@@ -1,6 +1,7 @@
 import {AbstractMapClass} from "./AbstractMapClass"
 import {PROVINCE_LIST} from "./Provinces"
 import {CITY_LIST} from "./Cities"
+import {MapManager} from './MapManager'
 
 export class ProvinceCityMapClass extends AbstractMapClass{
 
@@ -46,6 +47,10 @@ export class ProvinceCityMapClass extends AbstractMapClass{
   init(){
     this.setKeyList()
     this.setValueList()
+  }
+
+  register(mapName:string,mapManager:MapManager){
+    mapManager.set(mapName,this)
   }
 
 }
