@@ -18,7 +18,6 @@ struct CustomDialogUser {
 
   mapManager:MapManager
 
-
   provinceDialogController: CustomDialogController = new CustomDialogController({
     builder: CustomDialogExample({
       candidates: $provinces,
@@ -47,7 +46,6 @@ struct CustomDialogUser {
     cancel:()=>{this.displayResult()}
   })
 
-
   displayResult(){
     if(!!(this.selectedProvince && this.selectedCity && this.selectedArea)){
       promptAction.showToast({
@@ -55,7 +53,6 @@ struct CustomDialogUser {
       })
     }
   }
-
 
   aboutToAppear(){
     this.mapManager = new MapManager()
@@ -66,7 +63,6 @@ struct CustomDialogUser {
     this.mapManager.initMaps()
     this.provinces = this.mapManager.getFirstLayer()
   }
-
 
   build() {
     Column({space:20}) {
@@ -96,7 +92,6 @@ struct CustomDialogUser {
     }.width('100%').margin({ top: 5 })
 
   }
-
 
   // 在自定义组件即将析构销毁时将dialogController置空
   aboutToDisappear() {

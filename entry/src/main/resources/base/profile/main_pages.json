@@ -3,6 +3,7 @@
     "pages/Index",
     "pages/textInputPractice",
     "pages/DialogControllerPractice",
-    "pages/NewVersionOfDialogContrllerPractice"
+    "pages/NewVersionOfDialogContrllerPractice",
+    "pages/ProgressExample"
   ]
 }
