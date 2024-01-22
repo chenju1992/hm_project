@@ -98,6 +98,15 @@ struct CustomDialogUser {
     this.provinceDialogController = undefined
     this.cityDialogController = undefined
     this.areaDialogController = undefined
+
     this.mapManager = undefined
+
+    this.provinces = undefined
+    this.cities = undefined
+    this.areas = undefined
+
+    this.selectedProvince = undefined
+    this.selectedCity = undefined
+    this.selectedArea = undefined
   }
 }

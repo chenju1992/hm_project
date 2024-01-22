@@ -35,7 +35,6 @@ export class CityAreaMapClass extends AbstractMapClass{
       let cityCode = CITY_LIST.filter(item =>{return item.code === cityIndex})[0].code
       let values = AREA_LIST.filter(item => item.cityCode === cityCode).map(item => item.name)
       this.valueList.push(values)
-      //console.log(JSON.stringify(values));
     }
     return this
   }
