@@ -48,7 +48,7 @@ struct ProgressExample {
   }
 
   estimateRemainingTimeEverySecond(){
-    this.estimationTimer = setInterval(()=>{this.estimateTimeRemaining = this.estimateRemainingTime()},300)
+    this.estimationTimer = setInterval(()=>{this.estimateTimeRemaining = this.estimateRemainingTime()},1000)
   }
 
   getCurrentDownloadSpeed(){
@@ -65,9 +65,9 @@ struct ProgressExample {
       Text('Linear Progress').textAlign(TextAlign.Center).fontSize(20).fontColor(Color.Blue).width("100%")
       Progress({value:0,total:this.total,type:ProgressType.Linear}).color(Color.Gray).value(this.currentProgress).width(200)
       Text(`下载进度` + this.getProgressString(false))
-      Text('当前下载速度' + this.getCurrentDownloadSpeed().toString())
+      Text('当前下载速度' + this.getCurrentDownloadSpeed().toFixed(2))
       if(this.isDownloading && !this.isPaused){
-        Text("估计剩余时间" + this.estimateTimeRemaining).onAppear(()=>{this.estimateRemainingTimeEverySecond()})
+        Text("估计剩余时间" + this.estimateTimeRemaining.toFixed(2)).onAppear(()=>{this.estimateRemainingTimeEverySecond()})
       }
       if(!this.isDownloading){
         Button('开始下载').onClick(()=> {
@@ -99,7 +99,5 @@ struct ProgressExample {
     clearInterval(this.timer)
     clearInterval(this.estimateTimeRemaining)
   }
-
-
 
 }

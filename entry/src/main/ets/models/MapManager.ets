@@ -5,6 +5,7 @@ export class MapManager{
   valueList: Array<AbstractMapClass> = new Array()
   cursor: number = -1
 
+
   get(name:string):AbstractMapClass{
     if(this.keyList.indexOf(name) !== -1){
       return this.valueList[this.keyList.indexOf(name)]
