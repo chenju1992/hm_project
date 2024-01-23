@@ -3,13 +3,13 @@
 @Component
 struct ProgressExample {
   @State currentProgress: number = 0
-  @State previousProgress:number = 0
   @State isDownloading : boolean = false
   @State currentDownloadSpeed : number = -1
   @State isPaused : boolean = false
   @State estimateTimeRemaining : number = NaN
 
   total: number = 100
+  previousProgress:number = 0
   timer : number = -1
   estimationTimer : number = -1
 
