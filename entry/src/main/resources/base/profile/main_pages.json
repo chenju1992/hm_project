@@ -4,6 +4,7 @@
     "pages/textInputPractice",
     "pages/DialogControllerPractice",
     "pages/NewVersionOfDialogContrllerPractice",
-    "pages/ProgressExample"
+    "pages/ProgressExample",
+    "pages/NewVersionOfProgressBar"
   ]
 }
