@@ -12,6 +12,7 @@ struct NewVersionOfProgressBar {
 
   previousProgress: number = 0
   total : number = 100
+
   timer : number = -1
 
   build(){
@@ -32,8 +33,8 @@ struct NewVersionOfProgressBar {
         Button('开始下载').onClick(() => {
           this.simulateEvolving(0.1)
           this.progressBarState = ProgressBarStateEnum.PROGRESSING
-          this.getProgressSpeedEveryPeriod(1)
-          this.getRemainingTimeEstimationEveryPeriod(1)
+          this.getProgressSpeedEveryPeriod(2)
+          this.getRemainingTimeEstimationEveryPeriod(2)
         })
       }
 

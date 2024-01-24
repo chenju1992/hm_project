@@ -1,6 +1,6 @@
 export enum ProgressBarStateEnum{
-  IDLE,
-  PROGRESSING,
-  PAUSED,
-  FINISHED
+  IDLE = 0,
+  PROGRESSING = 1,
+  PAUSED = 2,
+  FINISHED = 3
 }
