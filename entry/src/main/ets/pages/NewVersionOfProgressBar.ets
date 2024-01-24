@@ -21,12 +21,19 @@ struct NewVersionOfProgressBar {
       Progress({value:0,total:this.total,type:ProgressType.Linear}).color(Color.Gray).value(this.currentProgress).width(200)
       Text(`下载进度${this.getCurrentProgress().toFixed(2)}/${this.getTotal()}`)
       Text(`当前前下载速度${this.getCurrentProgressSpeed().toFixed(2)}`)
-      if(this.currentProgress === this.total){
-        Button('完成').onAppear(()=>{this.progressBarState = ProgressBarStateEnum.FINISHED})
-      }
-
       if(this.progressBarState === ProgressBarStateEnum.PROGRESSING){
         Text(`剩余完成时间${this.getEstimateTimeRemaining().toFixed(2)}秒`)
+      }
+      if(this.progressBarState === ProgressBarStateEnum.PAUSED){
+        Text("已暂停")
+      }
+      if(this.progressBarState === ProgressBarStateEnum.FINISHED){
+        Text("已完成")
+      }
+
+
+      if(this.currentProgress === this.total){
+        Button('完成').onAppear(()=>{this.progressBarState = ProgressBarStateEnum.FINISHED})
       }
 
       if(this.progressBarState === ProgressBarStateEnum.IDLE) {
