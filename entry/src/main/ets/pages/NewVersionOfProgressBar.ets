@@ -7,13 +7,12 @@ struct NewVersionOfProgressBar {
 
   @State currentProgress: number = 0
   @State currentProgressSpeed : number = 0
+  @State estimateTimeRemaining : number = NaN
   @State progressBarState : ProgressBarStateEnum = ProgressBarStateEnum.IDLE
 
   previousProgress: number = 0
   total : number = 100
   timer : number = -1
-
-
 
   build(){
     Column({space:15}) {
@@ -21,9 +20,12 @@ struct NewVersionOfProgressBar {
       Progress({value:0,total:this.total,type:ProgressType.Linear}).color(Color.Gray).value(this.currentProgress).width(200)
       Text(`下载进度${this.getCurrentProgress().toFixed(2)}/${this.getTotal()}`)
       Text(`当前前下载速度${this.getCurrentProgressSpeed().toFixed(2)}`)
+      if(this.currentProgress === this.total){
+        Button('完成').onAppear(()=>{this.progressBarState = ProgressBarStateEnum.FINISHED})
+      }
 
       if(this.progressBarState === ProgressBarStateEnum.PROGRESSING){
-        Text(`剩余完成时间${this.getRemainingTimeEstimation().toFixed(2)}`)
+        Text(`剩余完成时间${this.getEstimateTimeRemaining().toFixed(2)}秒`)
       }
 
       if(this.progressBarState === ProgressBarStateEnum.IDLE) {
@@ -31,6 +33,7 @@ struct NewVersionOfProgressBar {
           this.simulateEvolving(0.1)
           this.progressBarState = ProgressBarStateEnum.PROGRESSING
           this.getProgressSpeedEveryPeriod(1)
+          this.getRemainingTimeEstimationEveryPeriod(1)
         })
       }
 
@@ -45,9 +48,6 @@ struct NewVersionOfProgressBar {
         Button('继续').onClick(()=>{
           this.simulateEvolving(0.1)
           this.progressBarState = ProgressBarStateEnum.PROGRESSING})
-      }
-      if(this.currentProgress === this.total){
-        Button('完成').onAppear(()=>{this.progressBarState = ProgressBarStateEnum.FINISHED})
       }
     }
   }
@@ -64,6 +64,10 @@ struct NewVersionOfProgressBar {
     return this.currentProgressSpeed
   }
 
+  getEstimateTimeRemaining(){
+    return this.estimateTimeRemaining
+  }
+
   getProgressSpeed(periodInSecond:number){
     if(this.progressBarState === ProgressBarStateEnum.PROGRESSING){
         this.currentProgressSpeed = (this.currentProgress - this.previousProgress ) / periodInSecond
@@ -76,14 +80,18 @@ struct NewVersionOfProgressBar {
   getProgressSpeedEveryPeriod(periodInSecond:number){
     setInterval(()=>{this.getProgressSpeed(periodInSecond)},
       periodInSecond * 1000)
-
   }
 
   getRemainingTimeEstimation(){
     if(this.progressBarState === ProgressBarStateEnum.PROGRESSING){
-      return (this.total - this.currentProgress) / this.currentProgressSpeed
+      this.estimateTimeRemaining = (this.total - this.currentProgress) / this.currentProgressSpeed
+    }else{
+      this.estimateTimeRemaining = NaN
     }
-    return NaN
+  }
+
+  getRemainingTimeEstimationEveryPeriod(periodInSecond:number){
+    setInterval(()=>{this.getRemainingTimeEstimation()},periodInSecond * 1000)
   }
 
   simulateEvolving(periodInSecond:number){
@@ -96,4 +104,5 @@ struct NewVersionOfProgressBar {
       }
     },periodInSecond * 1000)
   }
+
 }
