@@ -40,18 +40,9 @@ struct DownloadingBar {
       Progress({value:0, total:this.manager.getTotalProgress(),type:ProgressType.Linear}).color(Color.Gray).value(this.currentProgress).width(200)
       Text(`下载进度${this.currentProgress === this.manager.getTotalProgress() ? this.manager.getTotalProgress() : this.currentProgress.toFixed(2)}/${this.manager.getTotalProgress()}`)
       Text(`当前前下载速度${this.currentProgressSpeed.toFixed(2)}/秒`)
-      if(this.progressBarState === ProgressBarStateEnum.ONGOING){
-            Text(`剩余完成时间${this.estimateTimeRemaining.toFixed(2)}秒`)
-          }
-      if(this.progressBarState === ProgressBarStateEnum.PAUSED){
-            Text("已暂停")
-          }
-      if(this.progressBarState === ProgressBarStateEnum.FINISHED){
-            Text("已完成")
-          }
-
 
       if(this.currentProgress === this.manager.getTotalProgress()){
+            Text("已完成")
             Button('完成').onAppear(()=>{
               this.manager.setProgressBarState(this.finishedProgressBarState)
               this.progressBarState = this.manager.getProgressBarStateEnum()
@@ -68,27 +59,29 @@ struct DownloadingBar {
               this.getProgressSpeedEveryPeriod(3)
               this.getRemainingTimeEstimationEveryPeriod(3)
             })
-          }
+      }
 
       if(this.progressBarState === ProgressBarStateEnum.ONGOING){
+            Text(`剩余完成时间${this.estimateTimeRemaining.toFixed(2)}秒`)
             Button('暂停').onClick(()=>{
               clearInterval(this.timer)
               this.manager.setProgressBarState(this.pausedProgressBarState)
               this.progressBarState = this.manager.getProgressBarStateEnum()
             }
             )
-          }
+      }
 
       if(this.progressBarState === ProgressBarStateEnum.PAUSED){
+            Text("已暂停")
             Button('继续').onClick(()=>{
               this.manager.setProgressBarState(this.onGoingProgressBarState)
               this.progressBarState = this.manager.getProgressBarStateEnum()
 
               this.simulateEvolving(0.1)
-              this.getProgressSpeedEveryPeriod(3)
-              this.getRemainingTimeEstimationEveryPeriod(3)
+              this.getProgressSpeedEveryPeriod(2)
+              this.getRemainingTimeEstimationEveryPeriod(2)
               })
-          }
+      }
     }
   }
 
