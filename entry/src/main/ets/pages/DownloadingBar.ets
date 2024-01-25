@@ -33,6 +33,14 @@ struct DownloadingBar {
     this.manager.setProgressBarState(this.idleProgressBarState)
   }
 
+  aboutToDisappear(){
+    this.progressBarData = undefined
+    this.idleProgressBarState = undefined
+    this.onGoingProgressBarState = undefined
+    this.pausedProgressBarState = undefined
+    this.finishedProgressBarState = undefined
+    this.manager = undefined
+  }
 
   build() {
     Column({ space: 15 }) {
