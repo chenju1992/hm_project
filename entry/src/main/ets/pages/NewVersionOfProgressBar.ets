@@ -19,9 +19,9 @@ struct NewVersionOfProgressBar {
     Column({space:15}) {
       Text('Linear Progress').textAlign(TextAlign.Center).fontSize(20).fontColor(Color.Blue).width("100%")
       Progress({value:0,total:this.total,type:ProgressType.Linear}).color(Color.Gray).value(this.currentProgress).width(200)
-      Text(`下载进度${this.getCurrentProgress().toFixed(2)}/${this.getTotal()}`)
+      Text(`下载进度${this.getCurrentProgress() === this.getTotal() ? this.getTotal() : this.getCurrentProgress().toFixed(2)}/${this.getTotal()}`)
       Text(`当前前下载速度${this.getCurrentProgressSpeed().toFixed(2)}`)
-      if(this.progressBarState === ProgressBarStateEnum.PROGRESSING){
+      if(this.progressBarState === ProgressBarStateEnum.ONGOING){
         Text(`剩余完成时间${this.getEstimateTimeRemaining().toFixed(2)}秒`)
       }
       if(this.progressBarState === ProgressBarStateEnum.PAUSED){
@@ -39,13 +39,13 @@ struct NewVersionOfProgressBar {
       if(this.progressBarState === ProgressBarStateEnum.IDLE) {
         Button('开始下载').onClick(() => {
           this.simulateEvolving(0.1)
-          this.progressBarState = ProgressBarStateEnum.PROGRESSING
+          this.progressBarState = ProgressBarStateEnum.ONGOING
           this.getProgressSpeedEveryPeriod(2)
           this.getRemainingTimeEstimationEveryPeriod(2)
         })
       }
 
-      if(this.progressBarState === ProgressBarStateEnum.PROGRESSING){
+      if(this.progressBarState === ProgressBarStateEnum.ONGOING){
         Button('暂停').onClick(()=>{
           clearInterval(this.timer)
           this.progressBarState = ProgressBarStateEnum.PAUSED}
@@ -55,7 +55,7 @@ struct NewVersionOfProgressBar {
       if(this.progressBarState === ProgressBarStateEnum.PAUSED){
         Button('继续').onClick(()=>{
           this.simulateEvolving(0.1)
-          this.progressBarState = ProgressBarStateEnum.PROGRESSING})
+          this.progressBarState = ProgressBarStateEnum.ONGOING})
       }
     }
   }
@@ -77,7 +77,7 @@ struct NewVersionOfProgressBar {
   }
 
   getProgressSpeed(periodInSecond:number){
-    if(this.progressBarState === ProgressBarStateEnum.PROGRESSING){
+    if(this.progressBarState === ProgressBarStateEnum.ONGOING){
         this.currentProgressSpeed = (this.currentProgress - this.previousProgress ) / periodInSecond
         this.previousProgress = this.currentProgress
     }else{
@@ -91,7 +91,7 @@ struct NewVersionOfProgressBar {
   }
 
   getRemainingTimeEstimation(){
-    if(this.progressBarState === ProgressBarStateEnum.PROGRESSING){
+    if(this.progressBarState === ProgressBarStateEnum.ONGOING){
       this.estimateTimeRemaining = (this.total - this.currentProgress) / this.currentProgressSpeed
     }else{
       this.estimateTimeRemaining = NaN

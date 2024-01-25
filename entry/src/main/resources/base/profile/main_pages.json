@@ -5,6 +5,9 @@
     "pages/DialogControllerPractice",
     "pages/NewVersionOfDialogContrllerPractice",
     "pages/ProgressExample",
-    "pages/NewVersionOfProgressBar"
+    "pages/NewVersionOfProgressBar",
+    "pages/barrageExample",
+    "pages/NewVersionOfProgress2",
+    "pages/DownloadingBar"
   ]
 }
