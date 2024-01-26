@@ -58,7 +58,7 @@ struct DownloadingBar {
             })
       }
 
-      if(this.progressBarState === ProgressBarStateEnum.IDLE) {
+      else if(this.progressBarState === ProgressBarStateEnum.IDLE) {
             Button('开始下载').onClick(() => {
               this.manager.setProgressBarState(this.onGoingProgressBarState)
               this.progressBarState = this.manager.getProgressBarStateEnum()
@@ -69,7 +69,7 @@ struct DownloadingBar {
             })
       }
 
-      if(this.progressBarState === ProgressBarStateEnum.ONGOING){
+      else if(this.progressBarState === ProgressBarStateEnum.ONGOING){
             Text(`剩余完成时间${this.estimateTimeRemaining.toFixed(2)}秒`)
             Button('暂停').onClick(()=>{
               clearInterval(this.timer)
@@ -79,7 +79,7 @@ struct DownloadingBar {
             )
       }
 
-      if(this.progressBarState === ProgressBarStateEnum.PAUSED){
+      else if(this.progressBarState === ProgressBarStateEnum.PAUSED){
             Text("已暂停")
             Button('继续').onClick(()=>{
               this.manager.setProgressBarState(this.onGoingProgressBarState)
