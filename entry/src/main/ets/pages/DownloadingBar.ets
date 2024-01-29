@@ -27,6 +27,8 @@ struct DownloadingBar {
 
   timer : number = -1
 
+
+
   aboutToAppear(){
     this.progressBarData.setCurrentProgress(0)
     this.progressBarData.setTotalProgress(200)

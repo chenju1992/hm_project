@@ -2,29 +2,29 @@
 @Entry
 @Component
 struct BarrageExample {
-  @State flag: boolean = false
-  @State show: string = "弹幕"
+
+  comments: string[] = ["哈哈","呵呵","好高兴啊","好开心啊","好爽啊"]
+  scroller : Scroller = new Scroller()
 
   build() {
     Column() {
-      Button(this.show).width(80).height(30).margin(30).onClick(
-        ()=>{
-          this.flag = !this.flag
+      List({space: 20, scroller:this.scroller}){
+        if(this.comments.length){
+          ForEach(this.comments,(item:string,index:number)=>{
+            ListItem(){
+              Row({space:5}){
+                Text(item)
+              }.height(36).padding({
+                left:6,
+                top:6,
+                bottom:6,
+                right:10
+              }).borderRadius(42).backgroundColor("#CDFFD9")
+            }
+          })
         }
-      )
 
-          // Image的显示和消失配置为不同的过渡效果
-      if(this.flag){
-        Text("hahaha").width("100%")
-          .translate({x : '0%'})
-          .animation({duration:1000})
-
-        // Text("hehe").width('100%')
-        //   .transition({ type: TransitionType.Insert, translate: { x: "-100%" } })
-        //   .transition({ type: TransitionType.Delete, translate: { x: "100%" } })
-        //   .animation({duration:1000})
-      }
-
+      }.listDirection(Axis.Horizontal).height(36)
     }.width('100%')
 
   }
